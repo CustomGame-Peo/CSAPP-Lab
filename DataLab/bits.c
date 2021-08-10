@@ -207,7 +207,8 @@ int isAsciiDigit(int x) {
  *   Rating: 3
  */
 int conditional(int x, int y, int z) {
-	
+    int t=(!x+-1);
+    return (t&y)|(~t&z);
 }
 /* 
  * isLessOrEqual - if x <= y  then return 1, else return 0 
@@ -217,7 +218,11 @@ int conditional(int x, int y, int z) {
  *   Rating: 3
  */
 int isLessOrEqual(int x, int y) {
-	
+	int x_signal=(x>>31)&1;
+    int y_singal=(y>>31)&1;
+    int is_same=!(x_signal^y_singal);
+    int y_sub_x=((~x+1+y)>>31)&1;
+    return (is_same&y_singal)|(x_signal&(!is_same));
 }
 //4
 /* 
@@ -229,7 +234,7 @@ int isLessOrEqual(int x, int y) {
  *   Rating: 4 
  */
 int logicalNeg(int x) {
-  
+  return (x|(~x+1)>>31)+1;
 }
 /* howManyBits - return the minimum number of bits required to represent x in
  *             two's complement
@@ -244,7 +249,22 @@ int logicalNeg(int x) {
  *  Rating: 4
  */
 int howManyBits(int x) {//-2^(n-1)~2^(n-1)-1
-	
+	int sign;
+    int b16,b8,b4,b2,b1;
+    sign=x>>31;
+    x=(~sign&x)|(~x&sign);
+
+    b16=!!(x>>16)<<4;
+    x=x>>b16;
+    b8=!!(x>>8)<<3;
+    x=x>>b8;
+    b4=!!(x>>4)<<2;
+    x=x>>b4;
+    b2=!!(x>>2)<<1;
+    x=x>>b2;
+    b1=!!(x>>b1);
+    x=x<<b1;
+    return b16+b8+b4+b2+b1+x+1;
 }
 //float
 /* 
