@@ -222,7 +222,7 @@ int isLessOrEqual(int x, int y) {
     int y_singal=(y>>31)&1;
     int is_same=!(x_signal^y_singal);
     int y_sub_x=((~x+1+y)>>31)&1;
-    return (is_same&y_singal)|(x_signal&(!is_same));
+    return (is_same&y-y_sub_x)|(x_signal&(!is_same));
 }
 //4
 /* 
